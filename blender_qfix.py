@@ -2,7 +2,7 @@ bl_info = {
     "name": "Blender QFix",
     "author": "Dyvinia",
     "description": "Fix interpolation issues when importing quarternion animations ",
-    "version": (1, 0, 0),
+    "version": (1, 0, 1),
     "blender": (4, 0, 0),
     "category": "Animation",
 }
