@@ -1,7 +1,7 @@
 bl_info = {
     "name": "Blender QFix",
     "author": "Dyvinia",
-    "description": "Fix interpolation issues when importing quarternion animations",
+    "description": "Fix interpolation issues when importing animations from games that use SLERPed Quaternions for rotations.",
     "version": (1, 0, 1),
     "blender": (4, 0, 0),
     "category": "Animation",
@@ -13,8 +13,8 @@ from bpy.types import Panel
 from mathutils import Quaternion
 
 class ANIM_OT_QFix(Operator):
-    """ Fixes quarternion interpolation in current animation """
-    bl_idname = "qfix.fixquart"
+    """ Fixes Quaternion interpolation in current animation """
+    bl_idname = "qfix.fixquat"
     bl_label = "Fix Interpolation"
 
     @classmethod
@@ -93,7 +93,7 @@ class PANEL_PT_QFix(Panel):
 
     def draw(self, context):
         col = self.layout.column(align=True)
-        col.operator("qfix.fixquart", icon='ANIM_DATA')
+        col.operator("qfix.fixquat", icon='ANIM_DATA')
 
 def register():
     bpy.utils.register_class(ANIM_OT_QFix)
