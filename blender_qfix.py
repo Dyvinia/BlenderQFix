@@ -11,7 +11,6 @@ import bpy
 from bpy.types import Operator
 from bpy.types import Panel
 from mathutils import Quaternion
-import math
 
 class ANIM_OT_QFix(Operator):
     """ Fix Quarternion Interpolation Issues """
