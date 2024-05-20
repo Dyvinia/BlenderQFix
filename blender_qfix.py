@@ -7,10 +7,10 @@ bl_info = {
     "category": "Animation",
 }
 
-import bpy
-from bpy.types import Operator
-from bpy.types import Panel
-from mathutils import Quaternion
+import bpy # type: ignore
+from bpy.types import Operator # type: ignore
+from bpy.types import Panel # type: ignore
+from mathutils import Quaternion # type: ignore
 
 class ANIM_OT_QFix(Operator):
     """ Fixes Quaternion interpolation in current animation """
