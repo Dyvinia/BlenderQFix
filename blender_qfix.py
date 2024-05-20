@@ -13,13 +13,13 @@ from bpy.types import Panel
 from mathutils import Quaternion
 
 class ANIM_OT_QFix(Operator):
-    """ Fix Quarternion Interpolation Issues """
+    """ Fixes quarternion interpolation in current animation """
     bl_idname = "qfix.fixquart"
     bl_label = "Fix Interpolation"
 
     @classmethod
     def poll(cls, context):
-        return context.mode == "OBJECT" and context.active_object.type == 'ARMATURE'
+        return context.mode == "OBJECT" and context.active_object.type == "ARMATURE"
 
     def execute(self, context):
         obj = context.object
@@ -40,41 +40,42 @@ class ANIM_OT_QFix(Operator):
 
                 # w will be current index's fcurve, x is next fcurve, etc
                 fqw = fcurves[curve_index]
-                fqx = fcurves[curve_index+1]
-                fqy = fcurves[curve_index+2]
-                fqz = fcurves[curve_index+3]
-
-                #print(fqw.data_path + str(fqw.array_index))
-                #print(fqx.data_path + str(fqx.array_index))
-                #print(fqy.data_path + str(fqy.array_index))
-                #print(fqz.data_path + str(fqz.array_index))
+                fqx = fcurves[curve_index + 1]
+                fqy = fcurves[curve_index + 2]
+                fqz = fcurves[curve_index + 3]
 
                 # invert quaternion so that interpolation takes the shortest path
                 endQuat = 0
                 if (len(fqw.keyframe_points) > 0):
-                    endQuat = Quaternion((fqw.keyframe_points[0].co[1],fqx.keyframe_points[0].co[1],fqy.keyframe_points[0].co[1],fqz.keyframe_points[0].co[1] ))
+                    endQuat = Quaternion((fqw.keyframe_points[0].co[1],
+                                          fqx.keyframe_points[0].co[1],
+                                          fqy.keyframe_points[0].co[1],
+                                          fqz.keyframe_points[0].co[1]))
 
                     fqw.keyframe_points[0].interpolation = "LINEAR"
                     fqx.keyframe_points[0].interpolation = "LINEAR"
                     fqy.keyframe_points[0].interpolation = "LINEAR"
                     fqz.keyframe_points[0].interpolation = "LINEAR"
 
-                    for i in range(len(fqw.keyframe_points) - 1):
+                    for i in range(len(fqw.keyframe_points)):
                         startQuat = endQuat
-                        endQuat = Quaternion((fqw.keyframe_points[i+1].co[1],fqx.keyframe_points[i+1].co[1],fqy.keyframe_points[i+1].co[1],fqz.keyframe_points[i+1].co[1] ))
+                        endQuat = Quaternion((fqw.keyframe_points[i].co[1],
+                                              fqx.keyframe_points[i].co[1],
+                                              fqy.keyframe_points[i].co[1],
+                                              fqz.keyframe_points[i].co[1]))
     
                         if startQuat.dot(endQuat) < 0:
                             endQuat.negate()
-                            fqw.keyframe_points[i+1].co[1] = -fqw.keyframe_points[i+1].co[1]
-                            fqx.keyframe_points[i+1].co[1] = -fqx.keyframe_points[i+1].co[1]
-                            fqy.keyframe_points[i+1].co[1] = -fqy.keyframe_points[i+1].co[1]
-                            fqz.keyframe_points[i+1].co[1] = -fqz.keyframe_points[i+1].co[1]
+                            fqw.keyframe_points[i].co[1] = -fqw.keyframe_points[i].co[1]
+                            fqx.keyframe_points[i].co[1] = -fqx.keyframe_points[i].co[1]
+                            fqy.keyframe_points[i].co[1] = -fqy.keyframe_points[i].co[1]
+                            fqz.keyframe_points[i].co[1] = -fqz.keyframe_points[i].co[1]
     
                         
-                        fqw.keyframe_points[i+1].interpolation = "LINEAR"
-                        fqx.keyframe_points[i+1].interpolation = "LINEAR"
-                        fqy.keyframe_points[i+1].interpolation = "LINEAR"
-                        fqz.keyframe_points[i+1].interpolation = "LINEAR"
+                        fqw.keyframe_points[i].interpolation = "LINEAR"
+                        fqx.keyframe_points[i].interpolation = "LINEAR"
+                        fqy.keyframe_points[i].interpolation = "LINEAR"
+                        fqz.keyframe_points[i].interpolation = "LINEAR"
 
         wm.progress_end()
         
@@ -88,7 +89,7 @@ class PANEL_PT_QFix(Panel):
 
     @classmethod
     def poll(cls, context):
-        return context.mode == "OBJECT" and context.active_object.type == 'ARMATURE'
+        return context.mode == "OBJECT" and context.active_object.type == "ARMATURE"
 
     def draw(self, context):
         col = self.layout.column(align=True)
