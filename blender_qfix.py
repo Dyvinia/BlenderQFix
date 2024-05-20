@@ -45,27 +45,24 @@ class ANIM_OT_QFix(Operator):
                 fqz = fcurves[curve_index + 3]
 
                 # invert quaternion so that interpolation takes the shortest path
-                endQuat = 0
                 if (len(fqw.keyframe_points) > 0):
-                    endQuat = Quaternion((fqw.keyframe_points[0].co[1],
-                                          fqx.keyframe_points[0].co[1],
-                                          fqy.keyframe_points[0].co[1],
-                                          fqz.keyframe_points[0].co[1]))
-
                     fqw.keyframe_points[0].interpolation = "LINEAR"
                     fqx.keyframe_points[0].interpolation = "LINEAR"
                     fqy.keyframe_points[0].interpolation = "LINEAR"
                     fqz.keyframe_points[0].interpolation = "LINEAR"
 
                     for i in range(len(fqw.keyframe_points)):
-                        startQuat = endQuat
+                        startQuat = Quaternion((fqw.keyframe_points[i - 1].co[1],
+                                                fqx.keyframe_points[i - 1].co[1],
+                                                fqy.keyframe_points[i - 1].co[1],
+                                                fqz.keyframe_points[i - 1].co[1]))
+                        
                         endQuat = Quaternion((fqw.keyframe_points[i].co[1],
                                               fqx.keyframe_points[i].co[1],
                                               fqy.keyframe_points[i].co[1],
                                               fqz.keyframe_points[i].co[1]))
     
                         if startQuat.dot(endQuat) < 0:
-                            endQuat.negate()
                             fqw.keyframe_points[i].co[1] = -fqw.keyframe_points[i].co[1]
                             fqx.keyframe_points[i].co[1] = -fqx.keyframe_points[i].co[1]
                             fqy.keyframe_points[i].co[1] = -fqy.keyframe_points[i].co[1]
