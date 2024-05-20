@@ -1,7 +1,7 @@
 bl_info = {
     "name": "Blender QFix",
     "author": "Dyvinia",
-    "description": "Fix interpolation issues when importing animations from games that use SLERPed Quaternions for rotations.",
+    "description": "Fixes interpolation issues when importing animations from games that use SLERPed Quaternions for rotations.",
     "version": (1, 0, 3),
     "blender": (4, 0, 0),
     "category": "Animation",
