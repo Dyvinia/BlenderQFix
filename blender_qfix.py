@@ -2,7 +2,7 @@ bl_info = {
     "name": "Blender QFix",
     "author": "Dyvinia",
     "description": "Fixes interpolation issues when importing animations from games that use SLERPed Quaternions for rotations.",
-    "version": (1, 0, 3),
+    "version": (1, 0, 4),
     "blender": (4, 0, 0),
     "category": "Animation",
 }
@@ -31,6 +31,10 @@ class ANIM_OT_QFix(Operator):
 
         for curve_index in range(len(fcurves)):
             curve = fcurves[curve_index]
+            
+            # only bone keyframes
+            if '.' not in curve.data_path:
+                continue
 
             # iterate through all the bones' fcurves' w channel
             if curve.data_path.split('"')[1] in bone_names and curve.array_index == 0 and curve.data_path.split('.')[-1] == 'rotation_quaternion':
