@@ -2,7 +2,7 @@ bl_info = {
     "name": "Blender QFix",
     "author": "Dyvinia",
     "description": "Fixes interpolation issues when importing animations from games that use SLERPed Quaternions for rotations.",
-    "version": (1, 0, 5),
+    "version": (1, 0, 6),
     "blender": (4, 0, 0),
     "category": "Animation",
 }
@@ -22,31 +22,31 @@ class ANIM_OT_QFix(Operator):
         return context.mode == "OBJECT" and context.active_object.type == "ARMATURE"
 
     def execute(self, context):
-        obj = context.object
-        bone_names = [b.name for b in obj.pose.bones]
-        
-        if obj.animation_data:
-            if obj.animation_data.action:
-                fcurves = obj.animation_data.action.fcurves
-
-                wm = bpy.context.window_manager
-                wm.progress_begin(0, len(fcurves))
-
-                fix_interpolation(fcurves, bone_names, wm)
-
-                wm.progress_end()
-
-            for track in obj.animation_data.nla_tracks:
-                for strip in track.strips:
-                    fcurves = strip.action.fcurves
-                    
+        for obj in context.selected_objects:
+            bone_names = [b.name for b in obj.pose.bones]
+            
+            if obj.animation_data:
+                if obj.animation_data.action:
+                    fcurves = obj.animation_data.action.fcurves
+    
                     wm = bpy.context.window_manager
                     wm.progress_begin(0, len(fcurves))
-
+    
                     fix_interpolation(fcurves, bone_names, wm)
-
+    
                     wm.progress_end()
-        
+    
+                for track in obj.animation_data.nla_tracks:
+                    for strip in track.strips:
+                        fcurves = strip.action.fcurves
+                        
+                        wm = bpy.context.window_manager
+                        wm.progress_begin(0, len(fcurves))
+    
+                        fix_interpolation(fcurves, bone_names, wm)
+    
+                        wm.progress_end()
+            
         return {'FINISHED'}
     
 def fix_interpolation(fcurves, bone_names, wm):
