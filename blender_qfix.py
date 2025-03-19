@@ -19,7 +19,7 @@ class ANIM_OT_QFix(Operator):
 
     @classmethod
     def poll(cls, context):
-        return context.mode == "OBJECT" and context.active_object.type == "ARMATURE"
+        return context.mode == "OBJECT" and context.active_object and context.active_object.type == "ARMATURE"
 
     def execute(self, context):
         for obj in context.selected_objects:
@@ -46,7 +46,7 @@ class ANIM_OT_QFixAll(Operator):
 
     @classmethod
     def poll(cls, context):
-        return context.mode == "OBJECT" and context.active_object.type == "ARMATURE"
+        return context.mode == "OBJECT" and context.active_object and context.active_object.type == "ARMATURE"
 
     def execute(self, context):
         for obj in context.selected_objects:
@@ -84,7 +84,7 @@ class ANIM_OT_Slerp(Operator):
 
     @classmethod
     def poll(cls, context):
-        return context.mode == "OBJECT" and context.active_object.type == "ARMATURE"
+        return context.mode == "OBJECT" and context.active_object and context.active_object.type == "ARMATURE"
 
     def execute(self, context):
         for obj in context.selected_objects:
@@ -110,7 +110,7 @@ class ANIM_OT_SlerpAll(Operator):
 
     @classmethod
     def poll(cls, context):
-        return context.mode == "OBJECT" and context.active_object.type == "ARMATURE"
+        return context.mode == "OBJECT" and context.active_object and context.active_object.type == "ARMATURE"
 
     def execute(self, context):
         for obj in context.selected_objects:
@@ -243,7 +243,7 @@ class PANEL_PT_QFix(Panel):
 
     @classmethod
     def poll(cls, context):
-        return context.mode == "OBJECT" and context.active_object.type == "ARMATURE"
+        return context.mode == "OBJECT" and context.active_object and context.active_object.type == "ARMATURE"
 
     def draw(self, context):
         col = self.layout.column(align=True)
